@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -109,48 +108,46 @@ namespace discordresolver
             materialSkinManager.Theme = MaterialSkinManager.Themes.DARK;
             materialSkinManager.ColorScheme = new ColorScheme(Primary.LightBlue700, Primary.LightBlue700, Primary.LightBlue700, Accent.LightBlue700, TextShade.WHITE);
         }
-
         private void BtnCopy_Click(object sender, EventArgs e)
         {
             Clipboard.SetText(txtIPAddr.Text);
         }
-
         private void BtnResolve_Click(object sender, EventArgs e)
         {
+            Console.Clear();
+            txtIPAddr.Text = "0.0.0.0";
+            lbispname.Text = "Not Resolved Yet";
             Resolve();
         }
-
         private void BtnClose_Click(object sender, EventArgs e)
         {
             Environment.Exit(0);
         }
-
         public void Resolve()
         {
             Network.TcpActiveConnections = Network.GetAllTcpConnections();
-            foreach (TcpProcessRecord c in Network.TcpActiveConnections)
-            {
-                if (c.LocalAddress.ToString() != "127.0.0.1" && c.State == MibTcpState.ESTABLISHED)
-                {
-                    log.debug($"{c.LocalAddress}:{c.LocalPort} <-> {c.RemoteAddress}:{c.RemotePort} S: {c.State} PID: {c.ProcessId} PN: {c.ProcessName}");
-                    if (c.ProcessName == "Discord" && c.RemotePort == 443)
-                    {
+            foreach (TcpProcessRecord c in Network.TcpActiveConnections) {
+                if (c.LocalAddress.ToString() != "127.0.0.1" && c.State == MibTcpState.ESTABLISHED) {
+                    if (c.ProcessName == "Discord") {
                         var ipinfo = JsonConvert.DeserializeObject<ipinfo>(Get($"https://ipinfo.io/{c.RemoteAddress}/json"));
-                        log.custom($"{c.LocalAddress}:{c.LocalPort} <-> {c.RemoteAddress}:{c.RemotePort} S: {c.State} PID: {c.ProcessId} PN: {c.ProcessName} ORG: {ipinfo.org}", "DISCORD", Color.FromArgb(114, 137, 218));
-                        if (!ipinfo.org.ToLower().Contains("google llc") && !ipinfo.org.ToLower().Contains("cloudflare, inc.") && !ipinfo.org.ToLower().Contains("amazon.com, inc."))
-                        {
+                        log.custom($"{c.LocalAddress}:{c.LocalPort} <-> {c.RemoteAddress}:{c.RemotePort} S: {c.State} PID: {c.ProcessId} PN: {c.ProcessName} ORG: {ipinfo.org}", "DISCORD", log.hex("#7289da"));
+                        if (!ipinfo.org.ToLower().Contains("google llc") && !ipinfo.org.ToLower().Contains("cloudflare, inc.") && !ipinfo.org.ToLower().Contains("amazon.com, inc.")) {
+                            log.debug($"IP Found: {c.RemoteAddress} CITY: {ipinfo.city} REG: {ipinfo.region} COUNTRY: {ipinfo.country} ORG: {ipinfo.org}");
                             txtIPAddr.Text = c.RemoteAddress.ToString();
                             btnCopy.Enabled = true;
-                            lbispname.Text = ipinfo.org.ToString();
+                            lbispname.Text = $"{ipinfo.org} ({ipinfo.country})";
                         }
                     }
                 }
             }
         }
-
     }
     public class ipinfo
     {
+        public string city { get; set; }
+        public string region { get; set; }
+        public string country { get; set; }
+        public string loc { get; set; }
         public string org { get; set; }
     }
     public static class Network

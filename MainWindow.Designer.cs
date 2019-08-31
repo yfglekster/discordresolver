@@ -47,7 +47,7 @@
             // 
             this.lbCtx2.AutoSize = true;
             this.lbCtx2.ForeColor = System.Drawing.Color.Gray;
-            this.lbCtx2.Location = new System.Drawing.Point(172, 112);
+            this.lbCtx2.Location = new System.Drawing.Point(171, 112);
             this.lbCtx2.Name = "lbCtx2";
             this.lbCtx2.Size = new System.Drawing.Size(211, 14);
             this.lbCtx2.TabIndex = 16;
@@ -60,13 +60,13 @@
             this.btnResolve.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnResolve.Depth = 0;
             this.btnResolve.Icon = null;
-            this.btnResolve.Location = new System.Drawing.Point(241, 129);
+            this.btnResolve.Location = new System.Drawing.Point(303, 128);
             this.btnResolve.MouseState = MaterialSkin.MouseState.HOVER;
             this.btnResolve.Name = "btnResolve";
             this.btnResolve.Primary = true;
-            this.btnResolve.Size = new System.Drawing.Size(140, 36);
+            this.btnResolve.Size = new System.Drawing.Size(79, 36);
             this.btnResolve.TabIndex = 14;
-            this.btnResolve.Text = "Resolve Discord";
+            this.btnResolve.Text = "Resolve";
             this.btnResolve.UseVisualStyleBackColor = true;
             this.btnResolve.Click += new System.EventHandler(this.BtnResolve_Click);
             // 
@@ -177,7 +177,7 @@
             this.pnGeoIP.Controls.Add(this.lbispname);
             this.pnGeoIP.Location = new System.Drawing.Point(10, 133);
             this.pnGeoIP.Name = "pnGeoIP";
-            this.pnGeoIP.Size = new System.Drawing.Size(225, 28);
+            this.pnGeoIP.Size = new System.Drawing.Size(287, 28);
             this.pnGeoIP.TabIndex = 18;
             // 
             // MainWindow
