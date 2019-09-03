@@ -1,2 +1,2 @@
 # discordresolver
- resolves voice chat ip
+ resolves voice channel ip
